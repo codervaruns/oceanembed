@@ -1,17 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Default Dark Abyssal Mode */
-  --bg-abyss: #030712;
-  --bg-primary: #040914;
-  --bg-surface: #081326;
-  --bg-card: #0d1e3d;
-  --bg-card-hover: #132b54;
-  --bg-input: #0b1933;
+  /* Abyssal Ocean Command Dark Theme (Default) */
+  --bg-deep: #020612;
+  --bg-primary: #040918;
+  --bg-surface: rgba(6, 16, 38, 0.85);
+  --bg-surface-elevated: rgba(10, 26, 58, 0.92);
+  --bg-panel: rgba(8, 20, 48, 0.75);
+  --bg-card: rgba(12, 28, 64, 0.8);
+  --bg-card-hover: rgba(18, 42, 92, 0.9);
+  --bg-input: rgba(4, 12, 30, 0.9);
 
-  --border-subtle: #172d54;
-  --border-active: #22488a;
-  --border-focus: #00f2fe;
+  --border-subtle: rgba(23, 48, 92, 0.6);
+  --border-active: rgba(0, 242, 254, 0.7);
+  --border-glow: rgba(0, 242, 254, 0.35);
 
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
@@ -19,36 +21,39 @@
   --text-accent: #00f2fe;
 
   --accent-cyan: #00f2fe;
-  --accent-blue: #38bdf8;
+  --accent-sky: #38bdf8;
+  --accent-blue: #2563eb;
   --accent-purple: #a855f7;
   --accent-emerald: #10b981;
   --accent-amber: #f59e0b;
   --accent-rose: #f43f5e;
 
-  --glow-cyan: 0 0 20px rgba(0, 242, 254, 0.25);
-  --glow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-  --glass-bg: rgba(8, 19, 38, 0.75);
-  --glass-border: rgba(34, 72, 138, 0.4);
+  --glow-cyan: 0 0 25px rgba(0, 242, 254, 0.35);
+  --glow-cyan-sm: 0 0 12px rgba(0, 242, 254, 0.2);
+  --glow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 242, 254, 0.08);
 
-  --chart-grid: rgba(255, 255, 255, 0.08);
-  --map-water: #051026;
-  --map-land: #1e293b;
-  --map-coastline: #334155;
-  --map-grid-lines: rgba(255, 255, 255, 0.07);
+  --glass-blur: blur(16px);
+  --chart-grid: rgba(255, 255, 255, 0.07);
+  --map-water: #040c20;
+  --map-land: #0c1830;
+  --map-coastline: #1e3a66;
+  --map-grid-lines: rgba(255, 255, 255, 0.06);
 }
 
 [data-theme="light"] {
-  /* Oceanographic Laboratory Light Mode */
-  --bg-abyss: #e2e8f0;
+  /* Hydrographic Laboratory Light Theme */
+  --bg-deep: #e2e8f0;
   --bg-primary: #f8fafc;
-  --bg-surface: #ffffff;
-  --bg-card: #f1f5f9;
-  --bg-card-hover: #e2e8f0;
+  --bg-surface: rgba(255, 255, 255, 0.88);
+  --bg-surface-elevated: rgba(255, 255, 255, 0.96);
+  --bg-panel: rgba(241, 245, 249, 0.88);
+  --bg-card: rgba(241, 245, 249, 0.95);
+  --bg-card-hover: rgba(226, 232, 240, 0.95);
   --bg-input: #ffffff;
 
-  --border-subtle: #cbd5e1;
-  --border-active: #94a3b8;
-  --border-focus: #0284c7;
+  --border-subtle: rgba(203, 213, 225, 0.85);
+  --border-active: rgba(2, 132, 199, 0.85);
+  --border-glow: rgba(2, 132, 199, 0.25);
 
   --text-primary: #0f172a;
   --text-secondary: #475569;
@@ -56,17 +61,18 @@
   --text-accent: #0284c7;
 
   --accent-cyan: #0284c7;
-  --accent-blue: #0369a1;
+  --accent-sky: #0369a1;
+  --accent-blue: #1d4ed8;
   --accent-purple: #9333ea;
   --accent-emerald: #059669;
   --accent-amber: #d97706;
   --accent-rose: #e11d48;
 
-  --glow-cyan: 0 4px 15px rgba(2, 132, 199, 0.15);
-  --glow-subtle: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(203, 213, 225, 0.8);
+  --glow-cyan: 0 4px 20px rgba(2, 132, 199, 0.25);
+  --glow-cyan-sm: 0 2px 10px rgba(2, 132, 199, 0.15);
+  --glow-card: 0 8px 30px -3px rgba(15, 23, 42, 0.1);
 
+  --glass-blur: blur(16px);
   --chart-grid: rgba(0, 0, 0, 0.08);
   --map-water: #e0f2fe;
   --map-land: #cbd5e1;
@@ -78,14 +84,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--bg-primary);
+html, body, #root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-deep);
   color: var(--text-primary);
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -94,147 +102,179 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Custom Scientific Scrollbar */
+/* Custom Sleek Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-surface);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-active);
-  border-radius: 3px;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-accent);
 }
 
-/* Glassmorphism Classes */
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-}
-
-.card-elevated {
-  background: var(--bg-card);
+/* Glassmorphic Tactical Panels */
+.hud-panel {
+  background: var(--bg-surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-subtle);
-  border-radius: 8px;
-  box-shadow: var(--glow-subtle);
+  border-radius: 10px;
+  box-shadow: var(--glow-card);
 }
 
-.card-interactive {
-  background: var(--bg-card);
+.hud-panel-elevated {
+  background: var(--bg-surface-elevated);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-active);
+  border-radius: 10px;
+  box-shadow: var(--glow-cyan);
+}
+
+.hud-pill {
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+}
+
+.hud-card-interactive {
+  background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card-interactive:hover {
-  background: var(--bg-card-hover);
+.hud-card-interactive:hover {
+  background: var(--bg-surface-elevated);
   border-color: var(--border-active);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan-sm);
 }
 
-/* Button & Action Styles */
-.btn-primary {
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  color: #040914;
-  font-weight: 600;
+/* Tactical Action Buttons */
+.btn-tactical-primary {
+  background: linear-gradient(135deg, #00f2fe 0%, #0284c7 100%);
+  color: #020612;
+  font-weight: 700;
   border: none;
   border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 0.875rem;
+  padding: 7px 16px;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  box-shadow: var(--glow-cyan);
+  gap: 6px;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
   transition: all 0.2s ease;
 }
-.btn-primary:hover {
+.btn-tactical-primary:hover {
   opacity: 0.95;
   transform: scale(1.02);
+  box-shadow: 0 0 28px rgba(0, 242, 254, 0.6);
 }
 
-.btn-secondary {
-  background: var(--bg-card);
+.btn-tactical-secondary {
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
   color: var(--text-primary);
   border: 1px solid var(--border-subtle);
   border-radius: 6px;
-  padding: 8px 14px;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: all 0.2s ease;
 }
-.btn-secondary:hover {
-  background: var(--bg-card-hover);
+.btn-tactical-secondary:hover {
+  background: var(--bg-surface-elevated);
   border-color: var(--border-active);
-}
-
-/* Tab Navigation */
-.nav-tab {
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-secondary);
-  border: 1px solid transparent;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-  background: transparent;
-}
-.nav-tab:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface);
-}
-.nav-tab.active {
   color: var(--text-accent);
-  background: var(--bg-card);
+}
+
+.btn-tactical-secondary.active {
+  background: rgba(0, 242, 254, 0.15);
   border-color: var(--border-active);
-  box-shadow: 0 0 12px rgba(0, 242, 254, 0.12);
+  color: var(--text-accent);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
 }
 
-/* Pulse animation for ARGO Floats */
-@keyframes float-pulse {
+/* Slide-In Tactical Drawers */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 18, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 80;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.drawer-content {
+  width: 100%;
+  max-width: 680px;
+  height: 100%;
+  background: var(--bg-surface-elevated);
+  border-left: 1px solid var(--border-active);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Pulse Sonar / ARGO Animation */
+@keyframes sonar-pulse {
   0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    transform: scale(0.9);
+    opacity: 0.9;
   }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  50% {
+    transform: scale(1.4);
+    opacity: 0.3;
   }
   100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    transform: scale(1.8);
+    opacity: 0;
   }
 }
 
-.pulse-argo {
-  animation: float-pulse 2.2s infinite;
+.pulse-sonar {
+  animation: sonar-pulse 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 }
 
-/* Particle / Neural Flow Animation */
-@keyframes beam-flow {
-  0% {
-    stroke-dashoffset: 100;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
+/* Depth Dive Sounding Gauge Animation */
+@keyframes depth-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
 
-.flow-beam {
-  stroke-dasharray: 8, 4;
-  animation: beam-flow 1.5s linear infinite;
+.scan-beam {
+  animation: depth-scan 3s linear infinite;
 }

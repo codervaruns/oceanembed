@@ -1,39 +1,37 @@
-// OceanEmbed Main Application Shell
+// OceanEmbed Application Shell — Spatial Ocean Command Center
 // Problem Statement ID: SIH26066 | Smart India Hackathon 2026
 
 import React from 'react';
-import { OceanProvider, useOcean } from './context/OceanContext';
-import { Navbar } from './components/layout/Navbar';
-import { StatusBar } from './components/layout/StatusBar';
-import { OceanDashboardView } from './components/views/OceanDashboardView';
-import { ModelInsightsView } from './components/views/ModelInsightsView';
-import { ArgoValidationView } from './components/views/ArgoValidationView';
-import { DisasterStateView } from './components/views/DisasterStateView';
-import { DataProvenanceView } from './components/views/DataProvenanceView';
+import { OceanProvider } from './context/OceanContext';
+import { TacticalHeader } from './components/layout/TacticalHeader';
+import { TacticalFooter } from './components/layout/TacticalFooter';
+import { TacticalDrawer } from './components/layout/TacticalDrawer';
+import { IntegratedCommandView } from './components/views/IntegratedCommandView';
 import { GuidedTourOverlay } from './components/tour/GuidedTourOverlay';
 
-const MainContent: React.FC = () => {
-  const { activeTab } = useOcean();
-
+const MainApp: React.FC = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--bg-primary)' }}>
-      {/* Platform Header */}
-      <Navbar />
+    <div style={{
+      width: '100vw',
+      height: '100vh',
+      overflow: 'hidden',
+      position: 'relative',
+      background: 'var(--bg-deep)'
+    }}>
+      {/* Floating Tactical Header HUD */}
+      <TacticalHeader />
 
-      {/* Dynamic Main View */}
-      <main style={{ flex: 1, paddingBottom: '24px' }}>
-        {activeTab === 'map' && <OceanDashboardView />}
-        {activeTab === 'insights' && <ModelInsightsView />}
-        {activeTab === 'argo' && <ArgoValidationView />}
-        {activeTab === 'disaster' && <DisasterStateView />}
-        {activeTab === 'provenance' && <DataProvenanceView />}
-      </main>
+      {/* Main Full-Viewport Spatial Command Center */}
+      <IntegratedCommandView />
 
-      {/* Guided Tour HUD Overlay */}
+      {/* Slide-Over Inspection Drawers */}
+      <TacticalDrawer />
+
+      {/* 75-Second Guided Pitch Presentation Overlay */}
       <GuidedTourOverlay />
 
-      {/* Bottom Telemetry & Status Bar */}
-      <StatusBar />
+      {/* Bottom Telemetry & Physical Stratification Footer */}
+      <TacticalFooter />
     </div>
   );
 };
@@ -41,7 +39,7 @@ const MainContent: React.FC = () => {
 export const App: React.FC = () => {
   return (
     <OceanProvider>
-      <MainContent />
+      <MainApp />
     </OceanProvider>
   );
 };

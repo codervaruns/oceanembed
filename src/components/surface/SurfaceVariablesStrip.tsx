@@ -26,7 +26,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'Direct thermal boundary condition of the upper ocean mixed layer.',
     satelliteSource: 'OSTIA / Sentinel-3',
     physicalRole: 'Sets surface heat flux & mixed layer thermal boundary.',
-    color: '#ef4444'
+    color: '#ef4444',
+    validRange: [24.0, 32.5]
   },
   {
     id: 'sss',
@@ -36,7 +37,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'Halosteric density driver controlling barrier layer formation.',
     satelliteSource: 'SMOS / SMAP',
     physicalRole: 'Drives haline stratification (critical in BoB river plume).',
-    color: '#06b6d4'
+    color: '#06b6d4',
+    validRange: [30.0, 37.0]
   },
   {
     id: 'sla',
@@ -46,7 +48,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'Baroclinic proxy for dynamic thermocline depth displacement.',
     satelliteSource: 'DUACS / Jason-3 & SWOT',
     physicalRole: 'Positive SLA indicates deep thermocline; negative indicates shoaling.',
-    color: '#38bdf8'
+    color: '#38bdf8',
+    validRange: [-25.0, 25.0]
   },
   {
     id: 'u_curr',
@@ -56,7 +59,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'East-west geostrophic and Ekman surface advection.',
     satelliteSource: 'OSCAR / Altimetry',
     physicalRole: 'Transports heat horizontally across basin boundaries.',
-    color: '#10b981'
+    color: '#10b981',
+    validRange: [-1.5, 1.5]
   },
   {
     id: 'v_curr',
@@ -66,7 +70,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'North-south surface circulation and coastal boundary currents.',
     satelliteSource: 'OSCAR / Altimetry',
     physicalRole: 'Transports equatorial warm water into Arabian Sea and BoB.',
-    color: '#10b981'
+    color: '#10b981',
+    validRange: [-1.5, 1.5]
   },
   {
     id: 'u_wind',
@@ -76,7 +81,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'Zonal atmospheric forcing driving surface divergence and Ekman drift.',
     satelliteSource: 'ERA5 / CCMP',
     physicalRole: 'Monsoon zonal wind forcing driving coastal upwelling.',
-    color: '#f59e0b'
+    color: '#f59e0b',
+    validRange: [-15.0, 15.0]
   },
   {
     id: 'v_wind',
@@ -86,7 +92,8 @@ const SURFACE_METADATA: SurfaceVariableMetadata[] = [
     description: 'Meridional atmospheric forcing driving Findlater Jet and monsoon dynamics.',
     satelliteSource: 'ERA5 / CCMP',
     physicalRole: 'Drives open-ocean Ekman suction and thermocline pumping.',
-    color: '#f59e0b'
+    color: '#f59e0b',
+    validRange: [-15.0, 15.0]
   }
 ];
 

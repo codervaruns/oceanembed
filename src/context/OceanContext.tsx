@@ -1,4 +1,4 @@
-// Global Ocean Context & State Management
+// Global Ocean Context & Unified Command State
 // Problem Statement ID: SIH26066 | Smart India Hackathon 2026
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
@@ -11,13 +11,18 @@ import {
   SubsurfacePrediction,
   MapLayerMode,
   ThemeMode,
-  DataSourceMode
+  DataSourceMode,
+  ProfileCurveMode
 } from '../types/ocean';
 import { oceanDataManager } from '../services/data/oceanDataProvider';
+
+export type ActiveDrawer = 'none' | 'insights' | 'argo' | 'disaster' | 'provenance';
 
 interface OceanContextType {
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
+  activeDrawer: ActiveDrawer;
+  setActiveDrawer: (drawer: ActiveDrawer) => void;
   selectedLocation: OceanCoordinate;
   setSelectedLocation: (lat: number, lon: number) => Promise<void>;
   activeDepth: DepthLevel;
@@ -25,6 +30,8 @@ interface OceanContextType {
   depthIndex: number;
   mapLayer: MapLayerMode;
   setMapLayer: (layer: MapLayerMode) => void;
+  curveMode: ProfileCurveMode;
+  setCurveMode: (mode: ProfileCurveMode) => void;
   surfaceVariables: SurfaceVariables | null;
   prediction: SubsurfacePrediction | null;
   surfaceToggles: Record<string, boolean>;
@@ -38,6 +45,7 @@ interface OceanContextType {
   isPipelineModalOpen: boolean;
   setIsPipelineModalOpen: (open: boolean) => void;
   triggerInference: () => Promise<void>;
+  
   // Guided Pitch / Presentation Tour State
   isTourActive: boolean;
   tourStep: number;
@@ -59,9 +67,11 @@ const OceanContext = createContext<OceanContextType | undefined>(undefined);
 
 export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('map');
+  const [activeDrawer, setActiveDrawer] = useState<ActiveDrawer>('none');
   const [selectedLocation, setSelectedLocationState] = useState<OceanCoordinate>(defaultLocation);
   const [activeDepth, setActiveDepth] = useState<DepthLevel>(0);
   const [mapLayer, setMapLayer] = useState<MapLayerMode>('temperature');
+  const [curveMode, setCurveMode] = useState<ProfileCurveMode>('temperature');
   const [surfaceVariables, setSurfaceVariables] = useState<SurfaceVariables | null>(null);
   const [prediction, setPrediction] = useState<SubsurfacePrediction | null>(null);
   const [theme, setTheme] = useState<ThemeMode>('dark');
@@ -82,7 +92,6 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     v_wind: true,
   });
 
-  // Apply data-theme attribute on document root
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
@@ -96,7 +105,6 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     oceanDataManager.setMode(mode);
   }, []);
 
-  // Check backend health periodically
   useEffect(() => {
     const checkLive = async () => {
       const live = await oceanDataManager.getProvider().isLiveModelConnected();
@@ -107,7 +115,6 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch surface data and subsurface prediction for coordinates
   const loadDataForLocation = useCallback(async (lat: number, lon: number) => {
     const provider = oceanDataManager.getProvider();
     const surface = await provider.getSurfaceVariables(lat, lon);
@@ -135,17 +142,17 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const triggerInference = useCallback(async () => {
     setIsInferenceRunning(true);
     setIsPipelineModalOpen(true);
-    // 2.2s neural pipeline animation
     setTimeout(async () => {
       await loadDataForLocation(selectedLocation.lat, selectedLocation.lon);
       setIsInferenceRunning(false);
-    }, 2200);
+    }, 2000);
   }, [selectedLocation, loadDataForLocation]);
 
-  // Guided Tour handlers
+  // Guided Tour
   const startTour = useCallback(() => {
     setIsTourActive(true);
     setTourStep(0);
+    setActiveDrawer('none');
     setActiveTab('map');
   }, []);
 
@@ -167,6 +174,7 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const exitTour = useCallback(() => {
     setIsTourActive(false);
     setTourStep(0);
+    setActiveDrawer('none');
   }, []);
 
   const depthIndex = STANDARD_DEPTH_LEVELS.indexOf(activeDepth);
@@ -176,6 +184,8 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       value={{
         activeTab,
         setActiveTab,
+        activeDrawer,
+        setActiveDrawer,
         selectedLocation,
         setSelectedLocation,
         activeDepth,
@@ -183,6 +193,8 @@ export const OceanProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         depthIndex,
         mapLayer,
         setMapLayer,
+        curveMode,
+        setCurveMode,
         surfaceVariables,
         prediction,
         surfaceToggles,

@@ -14,7 +14,10 @@ import {
   Compass,
   CheckCircle2,
   HelpCircle,
-  TrendingUp
+  TrendingUp,
+  Sliders,
+  Activity,
+  GitCommit
 } from 'lucide-react';
 
 export const ModelInsightsView: React.FC = () => {
@@ -46,11 +49,11 @@ export const ModelInsightsView: React.FC = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Cpu size={20} color="var(--accent-cyan)" />
               <h2 style={{ fontSize: '1.15rem', fontWeight: 800, margin: 0 }}>
-                OceanEmbed Model Architecture & Latent Representation
+                OceanEmbed Model Architecture &amp; Latent Representation
               </h2>
             </div>
             <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-              Self-supervised multimodal spatio-temporal encoder mapping surface dynamics into a continuous 256-D latent ocean space.
+              Self-supervised multimodal spatio-temporal encoder mapping surface boundary dynamics into a continuous 256-D latent ocean space.
             </p>
           </div>
 
@@ -61,28 +64,28 @@ export const ModelInsightsView: React.FC = () => {
             </div>
             <div style={{ padding: '6px 12px', borderRadius: '6px', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', textAlign: 'center' }}>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Context Window</span>
-              <div className="mono" style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-blue)' }}>9×9 &times; 31d</div>
+              <div className="mono" style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-blue)' }}>9×9 × 31d</div>
+            </div>
+            <div style={{ padding: '6px 12px', borderRadius: '6px', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', textAlign: 'center' }}>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Attention Heads</span>
+              <div className="mono" style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-purple)' }}>8 Heads</div>
             </div>
             <div style={{ padding: '6px 12px', borderRadius: '6px', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', textAlign: 'center' }}>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Parameters</span>
               <div className="mono" style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-emerald)' }}>14.8M</div>
             </div>
-            <div style={{ padding: '6px 12px', borderRadius: '6px', background: 'var(--bg-card)', border: '1px solid var(--border-subtle)', textAlign: 'center' }}>
-              <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Inference Speed</span>
-              <div className="mono" style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--accent-amber)' }}>~42 ms</div>
-            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Grid: 256-D Latent Space Projection + Attention & Feature Saliency */}
+      {/* Main Grid: 256-D Latent Space Projection + Attention & 8-Head Specializations */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr)',
+        gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)',
         gap: '16px'
       }}>
         
-        {/* Left Card: 256-D Latent Space Projection (t-SNE / PCA clusters) */}
+        {/* Left Column: 256-D Latent Space Projection (t-SNE / PCA clusters) */}
         <div className="card-elevated" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -112,8 +115,8 @@ export const ModelInsightsView: React.FC = () => {
               {/* Axes */}
               <line x1="-55" y1="0" x2="55" y2="0" stroke="var(--chart-grid)" strokeWidth="0.8" strokeDasharray="2,2" />
               <line x1="0" y1="-55" x2="0" y2="55" stroke="var(--chart-grid)" strokeWidth="0.8" strokeDasharray="2,2" />
-              <text x="50" y="-3" fontSize="4" fill="var(--text-muted)" textAnchor="end" fontFamily="JetBrains Mono">Latent Dim 1</text>
-              <text x="3" y="-50" fontSize="4" fill="var(--text-muted)" textAnchor="start" fontFamily="JetBrains Mono">Latent Dim 2</text>
+              <text x="50" y="-3" fontSize="3.8" fill="var(--text-muted)" textAnchor="end" fontFamily="JetBrains Mono">Latent Dim 1</text>
+              <text x="3" y="-50" fontSize="3.8" fill="var(--text-muted)" textAnchor="start" fontFamily="JetBrains Mono">Latent Dim 2</text>
 
               {/* Water Mass Clusters */}
               {clusters.map((c) => {
@@ -124,7 +127,6 @@ export const ModelInsightsView: React.FC = () => {
                     onClick={() => setSelectedCluster(c)}
                     style={{ cursor: 'pointer' }}
                   >
-                    {/* Outer Cluster Halo */}
                     <circle
                       cx={c.tsneX}
                       cy={c.tsneY}
@@ -132,7 +134,6 @@ export const ModelInsightsView: React.FC = () => {
                       fill={c.color}
                       opacity={isSelected ? 0.35 : 0.18}
                     />
-                    {/* Core Point */}
                     <circle
                       cx={c.tsneX}
                       cy={c.tsneY}
@@ -141,11 +142,10 @@ export const ModelInsightsView: React.FC = () => {
                       stroke="#ffffff"
                       strokeWidth={isSelected ? 1.5 : 0.8}
                     />
-                    {/* Cluster Label */}
                     <text
                       x={c.tsneX}
                       y={c.tsneY + (c.tsneY > 0 ? 12 : -10)}
-                      fontSize="3.8"
+                      fontSize="3.6"
                       fontFamily="Inter"
                       fontWeight="600"
                       fill={c.color}
@@ -171,20 +171,20 @@ export const ModelInsightsView: React.FC = () => {
                   <text
                     x="15"
                     y="-18"
-                    fontSize="4"
+                    fontSize="3.8"
                     fontFamily="JetBrains Mono"
                     fontWeight="700"
                     fill="#00f2fe"
                     textAnchor="middle"
                   >
-                    Current Target ({selectedLocation.lat}°N, {selectedLocation.lon}°E)
+                    Target ({selectedLocation.lat}°N, {selectedLocation.lon}°E)
                   </text>
                 </g>
               )}
             </svg>
           </div>
 
-          {/* Selected Cluster Explanation */}
+          {/* Selected Cluster Details */}
           {selectedCluster && (
             <div style={{ padding: '10px 14px', borderRadius: '6px', background: 'var(--bg-surface)', border: `1px solid ${selectedCluster.color}40` }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
@@ -192,51 +192,38 @@ export const ModelInsightsView: React.FC = () => {
                   {selectedCluster.name}
                 </strong>
                 <span className="mono" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                  Mean Salinity: {selectedCluster.salinityMean} PSU | Temp: {selectedCluster.tempMean}°C
+                  Mean Salinity: {selectedCluster.salinityMean} PSU | Temp: {selectedCluster.tempMean}°C | σ_θ: {selectedCluster.densityMean} kg/m³
                 </span>
               </div>
-              <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', margin: 0 }}>
+              <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)', margin: '0 0 4px 0' }}>
                 {selectedCluster.description}
               </p>
+              <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>
+                <strong>Physical Origin:</strong> {selectedCluster.physicalOrigin}
+              </div>
             </div>
           )}
         </div>
 
-        {/* Right Column: Multimodal Saliency & Depth Query Cross-Attention */}
+        {/* Right Column: Multi-Head Attention Specializations & Depth Cross-Attention */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           
-          {/* Surface Saliency Contributions */}
+          {/* 8-Head Transformer Attention Specializations */}
           <div className="card-elevated" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <BarChart3 size={16} color="var(--accent-cyan)" />
+              <Layers size={16} color="var(--accent-purple)" />
               <h3 style={{ fontSize: '0.88rem', fontWeight: 700, margin: 0 }}>
-                Multimodal Surface Feature Saliency
+                8-Head Multi-Modal Transformer Self-Attention
               </h3>
             </div>
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0 }}>
-              Learned attention weights assigned by the multimodal transformer encoder:
-            </p>
-
+            
             {attentionData && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
-                {attentionData.variableWeights.map((w, idx) => (
-                  <div key={idx} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.72rem' }}>
-                      <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{w.variable}</span>
-                      <strong className="mono" style={{ color: 'var(--accent-cyan)' }}>
-                        {(w.weight * 100).toFixed(0)}%
-                      </strong>
-                    </div>
-                    <div style={{ height: '6px', background: 'var(--bg-input)', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div
-                        style={{
-                          width: `${w.weight * 100}%`,
-                          height: '100%',
-                          background: 'linear-gradient(90deg, #00f2fe 0%, #3b82f6 100%)',
-                          borderRadius: '3px'
-                        }}
-                      />
-                    </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', maxHeight: '160px', overflowY: 'auto' }}>
+                {attentionData.attentionHeadActivations.map((h) => (
+                  <div key={h.headIndex} style={{ padding: '6px 8px', background: 'var(--bg-surface)', borderRadius: '4px', border: '1px solid var(--border-subtle)', fontSize: '0.68rem' }}>
+                    <div style={{ fontWeight: 700, color: 'var(--text-primary)' }}>{h.name}</div>
+                    <div style={{ color: 'var(--accent-cyan)' }}>{h.specialization}</div>
+                    <div style={{ color: 'var(--text-muted)', fontSize: '0.62rem' }}>Feature: {h.dominantFeature}</div>
                   </div>
                 ))}
               </div>
@@ -247,7 +234,7 @@ export const ModelInsightsView: React.FC = () => {
           <div className="card-elevated" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Layers size={16} color="var(--accent-blue)" />
+                <Activity size={16} color="var(--accent-blue)" />
                 <h3 style={{ fontSize: '0.88rem', fontWeight: 700, margin: 0 }}>
                   Depth-Query Cross-Attention Decoder
                 </h3>
@@ -256,10 +243,6 @@ export const ModelInsightsView: React.FC = () => {
                 Query: z = {selectedDepthQuery}m
               </span>
             </div>
-
-            <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', margin: 0 }}>
-              How the decoder dynamically shifts attention to different surface signals depending on the target depth queried:
-            </p>
 
             {/* Depth Selector Pills */}
             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
